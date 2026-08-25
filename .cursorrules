@@ -1,0 +1,14 @@
+# Cursor Rules
+
+> **Router File:** This file directs Cursor to the comprehensive documentation.
+
+Read `../AGENT.md` for complete project context and instructions.
+
+All instruction content is in `PROJECT_CONTEXT.md`.
+
+---
+
+**Project:** Datumara - SQL generation LLM  
+**Current:** v0.1-alpha → v0.2-beta  
+**Goal:** 60-70% SQL validity  
+**Priorities:** `docs/plans/BACKLOG.md`

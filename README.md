@@ -3,10 +3,14 @@
   <h1 align="center">Datumara</h1>
   <p align="center">The faster path from question to insight</p>
   <p align="center">
+    <strong>Current Version: v0.1-alpha</strong> (proof of concept)
+  </p>
+  <p align="center">
     <a href="https://achagani.github.io/datumara/">View Landing Page</a> •
     <a href="#install">Install</a> •
     <a href="#training">Training</a> •
-    <a href="#models">Models</a>
+    <a href="#models">Models</a> •
+    <a href="VERSIONING.md">Version Roadmap</a>
   </p>
 </p>
 
@@ -14,7 +18,13 @@
 
 **Datumara** is an open-source analytics language model that turns business questions into schema-aware SQL and decision-ready answers. Run locally with Ollama or deploy on your own infrastructure.
 
+> **⚠️ v0.1-alpha Notice:** This is a proof of concept. Model quality is not production-ready. See [VERSIONING.md](VERSIONING.md) for the roadmap to v1.0.
+
 ## Install
+
+### Current Version (v0.1-alpha)
+
+> **Note:** v0.1-alpha is for development and testing only. Not suitable for production use.
 
 ### One-Command Install (Recommended)
 
@@ -22,7 +32,7 @@
 curl -fsSL https://raw.githubusercontent.com/achagani/datumara/main/install.sh | bash
 ```
 
-This checks for Ollama, pulls the `datumara-local` model, and gets you started immediately.
+This checks for Ollama, pulls the `datumara-local` model (v0.1-alpha), and gets you started immediately.
 
 ### Manual Install
 
@@ -40,6 +50,8 @@ ollama run datumara-local
 ```bash
 ollama run datumara-local "Return only SQL: show all users"
 ```
+
+> **Expected Output (v0.1-alpha):** Model may produce incomplete or invalid SQL. See [VERSIONING.md](VERSIONING.md) for quality targets and roadmap.
 
 ---
 
