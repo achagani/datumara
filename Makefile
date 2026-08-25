@@ -1,4 +1,4 @@
-.PHONY: help setup verify hardware train train-local train-local-ollama report-local export-local-hf export-local-ollama train-7b benchmark evaluate compare clean
+.PHONY: help setup verify hardware train train-local train-local-ollama train-local-checkpoint report-local export-local-hf export-local-ollama train-7b benchmark evaluate compare clean
 
 # Python interpreter
 PYTHON := source venv/bin/activate && python
@@ -20,6 +20,7 @@ help:
 	@echo "  make train      - Train 3.5B model with default config"
 	@echo "  make train-local - Train a small GPT-2 LoRA model on this machine"
 	@echo "  make train-local-ollama - Train an Ollama-compatible TinyLlama adapter"
+	@echo "  make train-local-checkpoint - Train TinyLlama with checkpointing (NEW)"
 	@echo "  make report-local - Generate a Markdown report for a local run"
 	@echo "  make export-local-hf - Merge the local adapter for Hugging Face"
 	@echo "  make export-local-ollama - Build an Ollama model from a supported merge"
@@ -74,13 +75,24 @@ train-local:
 		--output-dir models/local-gpt2-lora
 
 train-local-ollama:
-	@echo "Training Ollama-compatible TinyLlama LoRA model..."
+	@echo "Training Ollama-compatible TinyLlama LoRA model (NO checkpoints)..."
 	venv/bin/python training/train_local.py \
 		--model tinyllama \
 		--examples 7000 \
 		--max-steps 2000 \
 		--max-length 256 \
 		--output-dir models/local-tinyllama-lora
+
+train-local-checkpoint:
+	@echo "Training TinyLlama with checkpointing (saves every 100 steps)..."
+	venv/bin/python training/train_local_checkpoint.py \
+		--model tinyllama \
+		--examples 7000 \
+		--max-steps 2000 \
+		--max-length 256 \
+		--checkpoint-every 100 \
+		--keep-checkpoints 3 \
+		--output-dir models/local-tinyllama-checkpoint
 
 report-local:
 	@echo "Generating local training report..."
