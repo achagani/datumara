@@ -1,4 +1,5 @@
 <p align="center">
+  <img src="docs/logo.svg" alt="Datumara Logo" width="200"/>
   <h1 align="center">Datumara</h1>
   <p align="center">The faster path from question to insight</p>
   <p align="center">
