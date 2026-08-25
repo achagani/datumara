@@ -1,0 +1,90 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+bin/
+lib/
+pyvenv.cfg
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+.jupyter/
+
+# Project specific - Data
+data/spider/
+data/train_set.jsonl
+data/val_set.jsonl
+data/test_set.jsonl
+data/spider_augmented_train.jsonl
+
+# Project specific - Models & Checkpoints
+models/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.gguf
+
+# Logs & Outputs
+logs/
+*.log
+results/
+outputs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# Large files
+*.zip
+*.tar.gz
+*.tar.bz2
+*.rar
+
+# Verification artifacts (but keep results)
+verification_report.json
+baseline_*.json
+finetuned_results.json
+comparison_report.json

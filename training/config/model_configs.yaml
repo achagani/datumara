@@ -1,0 +1,77 @@
+# Model capability profiles.
+# VRAM values are planning thresholds, not guarantees; validate on the target GPU.
+# Do not store detected hardware here. It is collected at runtime by hardware.py.
+
+project:
+  name: "Datumara"
+  model_family: "schema-aware analytics language models"
+
+models:
+  qwen2.5-3.5b:
+    model_id: "Qwen/Qwen2.5-3B-Instruct"
+    parameter_count_b: 3.0
+    label: "3B class (project label: 3.5B)"
+    inference:
+      quantization: "4bit"
+      min_vram_gb: 3.0
+      recommended_vram_gb: 4.0
+      max_sequence_length: 1024
+      status_on_local_gpu: "conditional"
+    lora_training:
+      quantization: "4bit-qlora"
+      min_vram_gb: 4.0
+      recommended_vram_gb: 8.0
+      micro_batch_size: 1
+      gradient_accumulation_steps: 16
+      max_sequence_length: 512
+      cpu_offload: false
+      status_on_local_gpu: "experimental"
+    requirements:
+      quantization_backend: "bitsandbytes or another tested 4-bit backend"
+      note: "Full-precision or 8-bit training is not supported on a 4 GB GPU."
+
+  qwen2.5-7b:
+    model_id: "Qwen/Qwen2.5-7B-Instruct"
+    parameter_count_b: 7.0
+    label: "7B"
+    inference:
+      quantization: "4bit"
+      min_vram_gb: 5.0
+      recommended_vram_gb: 8.0
+      max_sequence_length: 2048
+      status_on_local_gpu: "unsupported"
+    lora_training:
+      quantization: "4bit-qlora"
+      min_vram_gb: 8.0
+      recommended_vram_gb: 12.0
+      micro_batch_size: 1
+      gradient_accumulation_steps: 32
+      max_sequence_length: 512
+      cpu_offload: false
+      status_on_local_gpu: "unsupported"
+    requirements:
+      quantization_backend: "bitsandbytes or another tested 4-bit backend"
+      note: "8-bit training still exceeds this GPU's practical VRAM budget."
+
+  qwen2.5-13b:
+    model_id: "Qwen/Qwen2.5-14B-Instruct"
+    parameter_count_b: 14.0
+    label: "14B class (project label: 13B)"
+    inference:
+      quantization: "4bit"
+      min_vram_gb: 10.0
+      recommended_vram_gb: 16.0
+      max_sequence_length: 2048
+      status_on_local_gpu: "unsupported"
+    lora_training:
+      quantization: "4bit-qlora"
+      min_vram_gb: 16.0
+      recommended_vram_gb: 24.0
+      micro_batch_size: 1
+      gradient_accumulation_steps: 64
+      max_sequence_length: 512
+      cpu_offload: false
+      status_on_local_gpu: "unsupported"
+    requirements:
+      quantization_backend: "bitsandbytes or another tested 4-bit backend"
+      note: "Use a larger GPU or a hosted training environment."
