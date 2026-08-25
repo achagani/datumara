@@ -7,10 +7,14 @@ This is the working backlog for improving Datumara. Items are ordered by priorit
 - [ ] Add a held-out train/validation/test split with deterministic seed and complexity stratification.
 - [ ] Mask prompt tokens from the loss so training scores the SQL completion rather than reproducing the prompt.
 - [ ] Add validation loss during training and report train/validation curves.
+- [ ] Add rolling loss averages and an ETA/steps-remaining display to live monitoring.
 - [ ] Add checkpoint saving and resume support so interrupted runs do not lose progress.
+- [ ] Save the best checkpoint by validation loss instead of using only the final checkpoint.
 - [ ] Add SQL-generation evaluation: parse validity, exact match, normalized match, and schema consistency.
+- [ ] Add a post-training inference smoke test with bounded tokens and assert non-empty output.
 - [ ] Fix the Ollama prompt template and stop tokens; verify output with a bounded automated inference test.
 - [ ] Run a meaningful local TinyLlama experiment and record quality metrics, not only training loss.
+- [ ] Compare training loss against validation loss to detect memorization and overfitting.
 
 ## P1: Complete The Hosted Training Path
 
@@ -18,6 +22,7 @@ This is the working backlog for improving Datumara. Items are ordered by priorit
 - [ ] Add runtime hardware eligibility checks before model loading and fail with actionable guidance.
 - [ ] Add 4-bit QLoRA dependency and verify it on the target hosted GPU.
 - [ ] Support configurable sequence length, micro-batch size, gradient accumulation, precision, and checkpoint interval.
+- [ ] Add automatic batch-size/context-length recommendations from detected free VRAM.
 - [ ] Implement curriculum learning and complexity-weighted loss only after baseline training is measurable.
 - [ ] Add experiment configuration snapshots, random seeds, git revision, and environment metadata to every run.
 - [ ] Add graceful handling for OOM, interruptions, and insufficient disk space.
@@ -27,6 +32,8 @@ This is the working backlog for improving Datumara. Items are ordered by priorit
 - [ ] Validate every augmented example against its database schema and SQLite execution where possible.
 - [ ] Detect and remove duplicate or contradictory examples across splits.
 - [ ] Preserve the SQL answer when tokenizing long schema prompts; measure truncation rates by complexity.
+- [ ] Use native chat templates for chat-tuned bases and verify prompt/response token boundaries.
+- [ ] Report how many examples are processed per run when a step cap stops before the full dataset.
 - [ ] Add a fixed evaluation set that is never used for training decisions.
 - [ ] Implement Qwen baseline benchmarking and side-by-side comparison reports.
 - [ ] Add hard-example mining from failed validation and test predictions.
