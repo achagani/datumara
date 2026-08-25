@@ -4,11 +4,15 @@ This is the working backlog for improving Datumara. Items are ordered by priorit
 
 ## P0: Make The Local Model Useful
 
+- [ ] **Add checkpoint saving and resume support so interrupted runs do not lose progress.** ← Critical after 1192-step interruption
+  - Save adapter weights every N steps (e.g., every 100 steps)
+  - Save `last_checkpoint.txt` with step number for resume
+  - Add `--resume` flag to training script to continue from last checkpoint
+  - Keep only last 3 checkpoints to save disk space
 - [ ] Add a held-out train/validation/test split with deterministic seed and complexity stratification.
 - [ ] Mask prompt tokens from the loss so training scores the SQL completion rather than reproducing the prompt.
 - [ ] Add validation loss during training and report train/validation curves.
 - [ ] Add rolling loss averages and an ETA/steps-remaining display to live monitoring.
-- [ ] Add checkpoint saving and resume support so interrupted runs do not lose progress.
 - [ ] Save the best checkpoint by validation loss instead of using only the final checkpoint.
 - [ ] Add SQL-generation evaluation: parse validity, exact match, normalized match, and schema consistency.
 - [ ] Add a post-training inference smoke test with bounded tokens and assert non-empty output.
