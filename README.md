@@ -4,6 +4,8 @@ Datumara is an analytics-focused language model framework for SQL generation, sc
 
 See [BACKLOG.md](BACKLOG.md) for the prioritized improvement plan.
 
+The project site is published at [achagani.github.io/datumara](https://achagani.github.io/datumara/) through GitHub Pages.
+
 ## Quick Start
 
 ### Local Setup (Linux/Mac/Windows)
