@@ -1,33 +1,48 @@
-# Datumara
+<p align="center">
+  <h1 align="center">Datumara</h1>
+  <p align="center">The faster path from question to insight</p>
+  <p align="center">
+    <a href="https://achagani.github.io/datumara/">View Landing Page</a> •
+    <a href="#install">Install</a> •
+    <a href="#training">Training</a> •
+    <a href="#models">Models</a>
+  </p>
+</p>
 
-Datumara is an analytics-focused language model framework for SQL generation, schema understanding, and data reasoning.
+---
 
-See [BACKLOG.md](BACKLOG.md) for the prioritized improvement plan.
+**Datumara** is an open-source analytics language model that turns business questions into schema-aware SQL and decision-ready answers. Run locally with Ollama or deploy on your own infrastructure.
 
-The project site is published at [achagani.github.io/datumara](https://achagani.github.io/datumara/) through GitHub Pages.
+## Install
 
-## Quick Start
-
-### Local Setup (Linux/Mac/Windows)
+### One-Command Install (Recommended)
 
 ```bash
-# 1. Clone the repository
-git clone <repo-url>
-cd llm-analytics
-
-# 2. Run setup script (creates venv and installs dependencies)
-bash setup.sh
-
-# 3. Verify installation
-source venv/bin/activate
-python poc_verification.py
-
-# 4. Detect this machine's capabilities
-make hardware
-
-# 5. Train the first local artifact
-make train-local
+curl -fsSL https://raw.githubusercontent.com/achagani/datumara/main/install.sh | bash
 ```
+
+This checks for Ollama, pulls the `datumara-local` model, and gets you started immediately.
+
+### Manual Install
+
+```bash
+ollama pull datumara-local
+```
+
+### Start Using
+
+```bash
+ollama run datumara-local
+```
+
+**Example:**
+```bash
+ollama run datumara-local "Return only SQL: show all users"
+```
+
+---
+
+## Quick Start
 
 ### Docker Setup
 
@@ -42,6 +57,8 @@ docker run --gpus all -it -v $(pwd)/models:/workspace/models datumara:latest
 python poc_verification.py
 python training/train.py --model qwen2.5-3.5b --config default
 ```
+
+---
 
 ## Project Structure
 
@@ -280,6 +297,179 @@ Edit `training/config/model_configs.yaml` to:
 - Configure quantization (8-bit, 4-bit)
 - Set batch sizes and memory requirements
 
+## Models
+
+### Datumara Local (1.1B)
+
+**Status:** ✅ Available  
+**Use case:** Private local analytics  
+**Runtime:** Ollama / 4GB GPU class
+
+```bash
+ollama run datumara-local
+```
+
+### Datumara SQL (3B class)
+
+**Status:** 🚧 Coming next  
+**Use case:** Production SQL workflows  
+**Runtime:** Hosted GPU
+
+### Datumara Scale (7B+)
+
+**Status:** 📋 Roadmap  
+**Use case:** Deep analytical workloads  
+**Runtime:** High-memory GPU
+
+---
+
+## Training
+
+### First Local Model
+
+Use the small cached GPT-2 model to validate the complete training and checkpoint path on a low-VRAM machine:
+
+```bash
+source venv/bin/activate
+make train-local
+```
+
+This creates `models/local-gpt2-lora`. It is an end-to-end pipeline smoke model, not the production analytics model. The hosted-GPU run should use the Qwen profile after the same runtime checks pass.
+
+Each run prints `step` and `loss`, and writes one JSON record per step to `training_progress.jsonl`. GPU memory usage is included when CUDA is available:
+
+```bash
+tail -f models/local-gpt2-lora/training_progress.jsonl
+```
+
+When training completes, the trainer also writes `training_report.md`. To regenerate a report from an existing run:
+
+```bash
+make report-local
+```
+
+Open `models/local-tinyllama-lora/training_report.md` to review the model, device, examples, steps, loss change, best loss, and peak reserved GPU memory. The report explicitly covers training loss; SQL quality requires a separate evaluation step.
+
+### Ollama-Compatible Local Model
+
+GPT-2 is useful for validating training but is not an Ollama-supported export architecture. To create a local model that can be used by both Hugging Face and Ollama, train the TinyLlama profile. Stop any loaded Ollama model first so it does not consume GPU memory:
+
+```bash
+make train-local-ollama
+python training/export_huggingface.py \
+  --adapter models/local-tinyllama-lora \
+  --base-model TinyLlama/TinyLlama-1.1B-Chat-v1.0 \
+  --output-dir models/local-tinyllama-merged
+python training/export_to_ollama.py \
+  --model-dir models/local-tinyllama-merged \
+  --name datumara-local
+ollama run datumara-local
+```
+
+The default local run uses all 7,000 examples, one shuffled pass capped at 2,000 steps, sequence length 256, batch size 1, gradient checkpointing, and LoRA. It is designed to use the available GPU while remaining bounded. The TinyLlama download is larger than GPT-2 and its 1.1B model still needs conservative settings on this 3.63 GiB GPU. The exporter validates the architecture before creating the Ollama model.
+
+Do not run Ollama inference at the same time as training on this GPU. Check memory with `make hardware` before starting, and run `ollama stop datumara-local` if the model is loaded.
+
+### Basic Training
+
+```bash
+source venv/bin/activate
+
+# Train the experimental 3B-class QLoRA profile only after validating its backend
+python training/train.py \
+  --model qwen2.5-3.5b \
+  --lora-config default \
+  --training-config default
+
+# Or with custom parameters
+python training/train.py \
+  --model qwen2.5-3.5b \
+  --batch-size 4 \
+  --learning-rate 1e-4 \
+  --num-epochs 3 \
+  --output-dir models/trained
+```
+
+### Training with Curriculum Learning
+
+Curriculum learning gradually increases complexity:
+- Epoch 1: Simple queries only
+- Epoch 2: Simple + Medium queries
+- Epoch 3: All complexity levels
+
+Configured in `training/config/training_configs.yaml`
+
+### Complexity-Aware Training
+
+Model is weighted to focus on complex queries:
+- Simple: 1x weight
+- Medium: 2x weight
+- Complex: 4x weight
+
+---
+
+## Evaluation
+
+### Baseline Benchmark
+
+Test base Qwen 3.5 (zero-shot) on Spider test set:
+
+```bash
+python training/benchmark_baseline.py \
+  --model "Qwen/Qwen2.5-3.5B-Instruct" \
+  --test-set data/test_set.jsonl \
+  --output baseline_qwen3.5.json
+```
+
+### Evaluate Fine-tuned Model
+
+```bash
+python training/evaluate.py \
+  --model models/trained \
+  --test-set data/test_set.jsonl \
+  --output finetuned_results.json
+```
+
+### Compare Models
+
+```bash
+python training/compare_models.py \
+  --baseline baseline_qwen3.5.json \
+  --finetuned finetuned_results.json \
+  --report comparison_report.json
+```
+
+## Metrics
+
+The model is evaluated on:
+
+1. **SQL Validity** — Does the generated SQL parse correctly?
+2. **Exact Match** — Does it match the expected query exactly?
+3. **Semantic Match** — Does it represent the same query (accounting for formatting)?
+4. **Schema Consistency** — Do all referenced tables/columns exist in the schema?
+
+All metrics are reported by complexity level (simple, medium, complex).
+
+## Model Profiles
+
+The project profile names are preserved for compatibility, but the actual Qwen model IDs and hardware requirements are defined in `training/config/model_configs.yaml`:
+
+- **qwen2.5-3.5b** maps to `Qwen/Qwen2.5-3B-Instruct`; experimental locally with 4-bit QLoRA
+- **qwen2.5-7b** maps to `Qwen/Qwen2.5-7B-Instruct`; requires a larger GPU
+- **qwen2.5-13b** maps to `Qwen/Qwen2.5-14B-Instruct`; requires a larger GPU
+
+These are configuration profiles, not claims that all three models have been tested locally. Any additional HuggingFace model needs an explicit profile before it is used.
+
+## Model Configuration
+
+Edit `training/config/model_configs.yaml` to:
+- Add new models
+- Adjust LoRA ranks
+- Configure quantization (8-bit, 4-bit)
+- Set batch sizes and memory requirements
+
+---
+
 ## Troubleshooting
 
 ### Out of Memory (OOM)
@@ -322,7 +512,18 @@ To prepare your data for routing, augment examples with a `routing` field in the
 
 ## License
 
-MIT
+MIT — Open source under the MIT license
+
+---
+
+<p align="center">
+  <strong>Datumara</strong> — Built for people who ask the next useful question.
+</p>
+<p align="center">
+  <a href="https://achagani.github.io/datumara/">Visit datumara.dev</a> •
+  <a href="https://github.com/achagani/datumara">GitHub</a> •
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCbaGv-E5dhgbGUbUbYg9GCYMKXJrpQLq0-5IWtE-IPRM3iw/viewform">Join Early Access</a>
+</p>
 
 ## Support
 
