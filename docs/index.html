@@ -13,7 +13,7 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="Datumara home"><span class="brand-mark">D</span><span>datumara</span></a>
+    <a class="brand" href="#top" aria-label="Datumara home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>datumara</span></a>
     <nav class="nav-links" aria-label="Main navigation">
       <a href="#capabilities">Capabilities</a>
       <a href="#models">Models</a>
@@ -26,11 +26,11 @@
     <section class="hero section-shell">
       <div class="hero-copy reveal">
         <p class="eyebrow"><span class="pulse"></span> Open-source analytics intelligence</p>
-        <h1>Ask your data<br><em>better questions.</em></h1>
-        <p class="hero-lede">Datumara turns natural language into schema-aware SQL and practical analytics. Built in the open, designed to run where your data lives.</p>
+        <h1>Your data,<br><em>made legible.</em></h1>
+        <p class="hero-lede">Datumara is the open analytics model that turns business questions into schema-aware SQL and decision-ready answers.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#start">Run it locally <span aria-hidden="true">↓</span></a>
-          <a class="button button-quiet" href="https://github.com/achagani/datumara" target="_blank" rel="noreferrer">Explore the source <span aria-hidden="true">↗</span></a>
+          <a class="button button-primary" href="#start">Try Datumara <span aria-hidden="true">↓</span></a>
+          <a class="button button-quiet" href="https://github.com/achagani/datumara" target="_blank" rel="noreferrer">Get the model <span aria-hidden="true">↗</span></a>
         </div>
         <div class="hero-proof"><span>MIT licensed</span><span>Local-first</span><span>Ollama ready</span></div>
       </div>
@@ -47,33 +47,35 @@
     </section>
 
     <section class="signal-strip section-shell reveal">
-      <div><strong>01</strong><span>Understand the schema</span></div><div><strong>02</strong><span>Translate the question</span></div><div><strong>03</strong><span>Validate the result</span></div><div><strong>04</strong><span>Keep control of your data</span></div>
+      <div><strong>01</strong><span>Ask in plain language</span></div><div><strong>02</strong><span>Generate grounded SQL</span></div><div><strong>03</strong><span>Move from data to action</span></div><div><strong>04</strong><span>Keep control of your data</span></div>
     </section>
 
     <section id="capabilities" class="content-section section-shell">
-      <div class="section-heading reveal"><p class="eyebrow">Designed for the analytical loop</p><h2>From question to<br><em>decision-ready query.</em></h2></div>
+      <div class="section-heading reveal"><p class="eyebrow">An analytics model, not a chatbot</p><h2>Less hunting.<br><em>More knowing.</em></h2></div>
       <div class="capability-grid">
-        <article class="capability-card reveal"><span class="card-index">01 / context</span><h3>Schema-aware by default</h3><p>Give Datumara the tables and columns that matter. Prompts carry the context needed to reason about real data structures.</p><div class="card-rule"></div><code>tables → relationships → query</code></article>
-        <article class="capability-card accent-card reveal delay-one"><span class="card-index">02 / control</span><h3>Run it where you need it</h3><p>Start on a laptop with Ollama, move to a hosted GPU for training, or integrate the model into your own data workflow.</p><div class="card-rule"></div><code>local / private / reproducible</code></article>
-        <article class="capability-card reveal delay-two"><span class="card-index">03 / open loop</span><h3>Improve it in public</h3><p>Every experiment has a place: data preparation, hardware profiles, training logs, evaluation, and a clear project backlog.</p><div class="card-rule"></div><code>measure → learn → publish</code></article>
+        <article class="capability-card reveal"><span class="card-index">01 / ground</span><h3>Knows the shape of your data</h3><p>Pass a schema, ask a question, and get a query grounded in the tables and relationships that actually exist.</p><div class="card-rule"></div><code>schema → context → SQL</code></article>
+        <article class="capability-card accent-card reveal delay-one"><span class="card-index">02 / answer</span><h3>Built for real analysis</h3><p>Go beyond lookup questions. Explore segments, trends, cohorts, anomalies, and the metrics your team uses every day.</p><div class="card-rule"></div><code>questions → signals → decisions</code></article>
+        <article class="capability-card reveal delay-two"><span class="card-index">03 / own</span><h3>Your data stays yours</h3><p>Run locally with Ollama or deploy on infrastructure you control. The model fits into your workflow instead of replacing it.</p><div class="card-rule"></div><code>private / portable / open</code></article>
       </div>
     </section>
 
     <section id="models" class="models-section">
       <div class="section-shell">
-        <div class="section-heading split-heading reveal"><div><p class="eyebrow">Model runway</p><h2>One framework.<br><em>Every machine.</em></h2></div><p>Datumara detects available hardware and keeps model requirements explicit. Begin with a local proof, then scale training without changing the workflow.</p></div>
+        <div class="section-heading split-heading reveal"><div><p class="eyebrow">Choose your starting point</p><h2>Small enough<br><em>to start now.</em></h2></div><p>Use the local model to explore the experience, then move to a higher-capacity checkpoint when your workload demands it.</p></div>
         <div class="model-table reveal">
           <div class="model-row model-head"><span>Profile</span><span>Use case</span><span>Runtime</span><span>Status</span></div>
-          <div class="model-row"><span class="model-name">TinyLlama 1.1B <small>local</small></span><span>First artifact, Ollama</span><span>3.63 GiB GPU</span><span class="status status-live"><i></i> Ready</span></div>
-          <div class="model-row"><span class="model-name">Qwen 3B class <small>hosted</small></span><span>Production SQL fine-tune</span><span>4–8 GB+ GPU</span><span class="status status-next"><i></i> Next</span></div>
-          <div class="model-row"><span class="model-name">Qwen 7B / 14B <small>scale</small></span><span>Higher-capacity experiments</span><span>8–24 GB+ GPU</span><span class="status"><i></i> Planned</span></div>
+          <div class="model-row"><span class="model-name">Datumara Local <small>1.1B</small></span><span>Private local analytics</span><span>Ollama / 4 GB class</span><span class="status status-live"><i></i> Available</span></div>
+          <div class="model-row"><span class="model-name">Datumara SQL <small>3B class</small></span><span>Production SQL workflows</span><span>Hosted GPU</span><span class="status status-next"><i></i> Coming next</span></div>
+          <div class="model-row"><span class="model-name">Datumara Scale <small>7B+</small></span><span>Deep analytical workloads</span><span>High-memory GPU</span><span class="status"><i></i> Roadmap</span></div>
         </div>
       </div>
     </section>
 
     <section id="start" class="start-section section-shell">
-      <div class="start-panel reveal"><div class="start-copy"><p class="eyebrow">Start with the working artifact</p><h2>Bring Datumara<br><em>to your terminal.</em></h2><p>Clone the framework, detect your hardware, and run the local model through Ollama. No hosted service required.</p><a class="text-link" href="https://github.com/achagani/datumara" target="_blank" rel="noreferrer">View repository <span aria-hidden="true">↗</span></a></div><div class="command-stack"><div class="command-row"><span>$</span><code>git clone https://github.com/achagani/datumara</code><button data-copy="git clone https://github.com/achagani/datumara" aria-label="Copy clone command">copy</button></div><div class="command-row"><span>$</span><code>cd datumara &amp;&amp; bash setup.sh</code><button data-copy="cd datumara && bash setup.sh" aria-label="Copy setup command">copy</button></div><div class="command-row"><span>$</span><code>make hardware</code><button data-copy="make hardware" aria-label="Copy hardware command">copy</button></div><div class="command-row command-highlight"><span>$</span><code>ollama run datumara-local</code><button data-copy="ollama run datumara-local" aria-label="Copy Ollama command">copy</button></div><p class="copy-note" aria-live="polite"></p></div></div>
+      <div class="start-panel reveal"><div class="start-copy"><p class="eyebrow">Start with the working model</p><h2>Bring Datumara<br><em>to your terminal.</em></h2><p>Install the open framework, detect your hardware, and ask your first question locally through Ollama.</p><a class="text-link" href="https://github.com/achagani/datumara" target="_blank" rel="noreferrer">View repository <span aria-hidden="true">↗</span></a></div><div class="command-stack"><div class="command-row"><span>$</span><code>git clone https://github.com/achagani/datumara</code><button data-copy="git clone https://github.com/achagani/datumara" aria-label="Copy clone command">copy</button></div><div class="command-row"><span>$</span><code>cd datumara &amp;&amp; bash setup.sh</code><button data-copy="cd datumara && bash setup.sh" aria-label="Copy setup command">copy</button></div><div class="command-row"><span>$</span><code>make hardware</code><button data-copy="make hardware" aria-label="Copy hardware command">copy</button></div><div class="command-row command-highlight"><span>$</span><code>ollama run datumara-local</code><button data-copy="ollama run datumara-local" aria-label="Copy Ollama command">copy</button></div><p class="copy-note" aria-live="polite"></p></div></div>
     </section>
+
+    <section class="builder-section section-shell reveal"><div><p class="eyebrow">For builders</p><h2>Built in the open.<br><em>Worth looking under the hood.</em></h2></div><div><p>Training recipes, hardware detection, progress reports, and evaluation tooling are available for people who want to adapt Datumara to their own data.</p><a class="text-link" href="https://github.com/achagani/datumara#training" target="_blank" rel="noreferrer">Read the training notes <span aria-hidden="true">↗</span></a></div></section>
 
     <section class="closing-section section-shell reveal"><div class="closing-line"></div><p>Built for people who ask<br><em>the next useful question.</em></p><div class="closing-meta"><span>Datumara / 2026</span><a href="https://github.com/achagani/datumara" target="_blank" rel="noreferrer">github.com/achagani/datumara ↗</a></div></section>
   </main>
